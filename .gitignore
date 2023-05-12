@@ -4,7 +4,6 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-com/techstudy/SqsDemo/AWSKeys.java
 src/main/java/com/techstudy/SqsDemo/AWSKeys.java
 ### STS ###
 .apt_generated

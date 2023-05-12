@@ -26,17 +26,6 @@ public class SQSService {
         SQSConfig.sqs.sendMessage(sendMessageRequest);
     }
 
-    public void sendFIFOSingleMessage(String message, String messageGroupId) {
-        SendMessageRequest sendMessageRequest = new SendMessageRequest();
-        sendMessageRequest.setQueueUrl(SQSConfig.endpoint);
-        String sendMessage = message;
-        sendMessage = sendMessage + "_groupId=" + messageGroupId;
-        sendMessageRequest.setMessageGroupId(messageGroupId);
-        sendMessageRequest.setMessageBody(sendMessage);
-        sendMessageRequest.setMessageDeduplicationId(UUID.randomUUID().toString());
-        SQSConfig.sqs.sendMessage(sendMessageRequest);
-    }
-
     public void sendBatchMessages(String message) {
 
         SendMessageBatchRequest sqsBatchRequest = new SendMessageBatchRequest();
@@ -61,6 +50,17 @@ public class SQSService {
                 .forEach(fm -> System.out.println("failed " + fm.getMessage() + ", " + fm.getCode() + ", " + fm.getSenderFault()));
         result.getSuccessful().stream()
                 .forEach(fm -> System.out.println("success " + fm.getMessageId()));
+    }
+
+    public void sendFIFOSingleMessage(String message, String messageGroupId) {
+        SendMessageRequest sendMessageRequest = new SendMessageRequest();
+        sendMessageRequest.setQueueUrl(SQSConfig.endpoint);
+        String sendMessage = message;
+        sendMessage = sendMessage + "_groupId=" + messageGroupId;
+        sendMessageRequest.setMessageGroupId(messageGroupId);
+        sendMessageRequest.setMessageBody(sendMessage);
+        sendMessageRequest.setMessageDeduplicationId(UUID.randomUUID().toString());
+        SQSConfig.sqs.sendMessage(sendMessageRequest);
     }
 
     public void sendFIFOBatchMessages(String message, String messageGroupId) {

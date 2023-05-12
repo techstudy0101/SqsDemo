@@ -24,11 +24,6 @@ public class SQSConfig {
     public static AmazonSQS deadLetterSQS;
     public static AmazonSQSAsync bufferedSqs;
 
-
-    public static String getDefaultGroupId(String groupId) {
-        return groupId == null ? defaultGroupId : groupId;
-    }
-
     public static void init() {
         initSimpleClient();
         initBufferedClient();
@@ -73,15 +68,19 @@ public class SQSConfig {
         final AmazonSQSAsync sqsAsync = new AmazonSQSAsyncClient(SQSConfig.getCreds());
 
         final QueueBufferConfig config = new QueueBufferConfig()
-                .withMaxBatchOpenMs(200)
-                .withMaxBatchSize(10)
-                .withMaxInflightOutboundBatches(20)
-                .withMaxInflightReceiveBatches(20)
-                .withMaxDoneReceiveBatches(100);
+                .withMaxBatchOpenMs(200)    // open outbound connection for 200 ms to convert individual messages into batches
+                .withMaxInflightOutboundBatches(20) // Max number of threads for send, delete
+                .withMaxBatchSize(10)      // number of messages in one batch
+                .withMaxInflightReceiveBatches(20)  // Max number of threads for pulling the batches
+                .withMaxDoneReceiveBatches(100);    // Prefetch
 
         config.setLongPoll(true);
 
         bufferedSqs = new AmazonSQSBufferedAsyncClient(sqsAsync, config);
+    }
+
+    public static String getDefaultGroupId(String groupId) {
+        return groupId == null ? defaultGroupId : groupId;
     }
 
 
