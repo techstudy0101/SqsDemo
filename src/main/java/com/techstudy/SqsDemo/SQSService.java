@@ -29,7 +29,7 @@ public class SQSService {
     public void sendBatchMessages(String message) {
 
         SendMessageBatchRequest sqsBatchRequest = new SendMessageBatchRequest();
-        List<SendMessageBatchRequestEntry> entryList = Stream.iterate(1, i -> i < 10, i -> i + 1)
+        List<SendMessageBatchRequestEntry> entryList = Stream.iterate(1, i -> i <= 10, i -> i + 1)
                 .map(numb -> {
                     String messageId = "id-" + numb;
                     String sendMessage = message;

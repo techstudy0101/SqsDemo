@@ -14,7 +14,7 @@ public class SqsDemoApplication {
         SpringApplication.run(SqsDemoApplication.class, args);
 //        ReceiverService.receiveMessage();
 //        ReceiverService.receiveDeadLetterMessage();
-        ReceiverService.receiveMessageInBatch();
+//        ReceiverService.receiveMessageInBatch();
     }
 
 }

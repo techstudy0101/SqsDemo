@@ -14,8 +14,8 @@ import com.amazonaws.services.sqs.buffered.QueueBufferConfig;
 public class SQSConfig {
 
     public static String region = "us-east-1";
-    public static String queueName = "DemoQueue";
-    public static final String endpoint = "https://sqs.us-east-1.amazonaws.com/594301834106/DemoQueue";
+    public static String queueName = "DemoV2";
+    public static final String endpoint = "https://sqs.us-east-1.amazonaws.com/594301834106/DemoV2";
     public static final String deadLetterEndpoint = "https://sqs.us-east-1.amazonaws.com/594301834106/DemoQueueDeadLetterQueue";
     public static final String deadLetterName = "DemoQueueDeadLetterQueue";
     public static final String groupIdPrefix = "groupId_test_";
@@ -68,7 +68,7 @@ public class SQSConfig {
         final AmazonSQSAsync sqsAsync = new AmazonSQSAsyncClient(SQSConfig.getCreds());
 
         final QueueBufferConfig config = new QueueBufferConfig()
-                .withMaxBatchOpenMs(200)    // open outbound connection for 200 ms to convert individual messages into batches
+                .withMaxBatchOpenMs(1000)    // open outbound connection for 200 ms to convert individual messages into batches
                 .withMaxInflightOutboundBatches(20) // Max number of threads for send, delete
                 .withMaxBatchSize(10)      // number of messages in one batch
                 .withMaxInflightReceiveBatches(20)  // Max number of threads for pulling the batches
